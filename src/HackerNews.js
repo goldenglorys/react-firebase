@@ -47,7 +47,11 @@ class HackerNews extends Component {
     return (
       <div>
         <form>
-          <input type="text" onChange={this.onSearchChange} />
+          <input
+            type="text"
+            onChange={this.onSearchChange}
+            value={searchTerm}
+          />
         </form>
         {list.filter(isSearched(searchTerm)).map((item) => {
           return (
