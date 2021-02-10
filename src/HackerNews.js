@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import "./index.css";
-import "./App.css";
+import "./HackerNews.css";
 
 const list = [
   {
@@ -47,15 +46,20 @@ class HackerNews extends Component {
   render() {
     const { searchTerm, list } = this.state;
     return (
-      <div className="page">
-        <div>
-          <HackerNewsSearch value={searchTerm} onChange={this.onSearchChange} />
+      <div className="body">
+        <div className="page">
+          <div>
+            <HackerNewsSearch
+              value={searchTerm}
+              onChange={this.onSearchChange}
+            />
+          </div>
+          <HackerNewsTable
+            list={list}
+            pattern={searchTerm}
+            onDismiss={this.onDismiss}
+          />
         </div>
-        <HackerNewsTable
-          list={list}
-          pattern={searchTerm}
-          onDismiss={this.onDismiss}
-        />
       </div>
     );
   }
