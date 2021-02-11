@@ -8,9 +8,6 @@ const PARAM_SEARCH = "query=";
 const PARAM_PAGE = "page=";
 const page = "0";
 
-const isSearched = (searchTerm) => (item) =>
-  item.title.toLowerCase().includes(searchTerm.toLowerCase());
-
 class HackerNewsAPI extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +15,7 @@ class HackerNewsAPI extends Component {
       results: null,
       searchTerm: DEFAULT_QUERY,
       searchKey: "",
+      error: null,
     };
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
@@ -57,9 +55,11 @@ class HackerNewsAPI extends Component {
       results: { ...results, [searchKey]: { hits: updatedHits, page } },
     });
   }
+
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value });
   }
+
   onSearchSubmit(event) {
     const { searchTerm } = this.state;
     this.setState({ searchKey: searchTerm });
@@ -68,37 +68,29 @@ class HackerNewsAPI extends Component {
     }
     event.preventDefault();
   }
+
   fetchSearchTopStories(searchTerm, page) {
     fetch(
       `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`
     )
       .then((response) => response.json())
       .then((result) => this.setSearchTopStories(result))
-      .catch((error) => error);
+      .catch((error) => this.setState({ error }));
   }
 
   componentDidMount() {
     const { searchTerm } = this.state;
     this.setState({ searchKey: searchTerm });
     this.fetchSearchTopStories(searchTerm, page);
-    // fetch(
-    //   `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}`
-    // )
-    //   .then((response) => response.json())
-    //   .then((result) => this.setSearchTopStories(result))
-    //   .catch((error) => error);
   }
 
   render() {
-    const { searchTerm, results, searchKey } = this.state;
+    const { searchTerm, results, searchKey, error } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
     const list =
       (results && results[searchKey] && results[searchKey].hits) || [];
 
-    if (!results) {
-      return null;
-    }
     return (
       <div className="body">
         <div className="page">
@@ -109,7 +101,13 @@ class HackerNewsAPI extends Component {
               onSubmit={this.onSearchSubmit}
             />
           </div>
-          <HackerNewsTable list={list} onDismiss={this.onDismiss} />
+          {error ? (
+            <div className="interactions">
+              <p>Something went wrong. Please try again!</p>
+            </div>
+          ) : (
+            <HackerNewsTable list={list} onDismiss={this.onDismiss} />
+          )}
           <div className="interactions">
             <button
               onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
