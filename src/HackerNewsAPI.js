@@ -146,6 +146,14 @@ class HackerNewsTable extends Component {
     const { list, onDismiss } = this.props;
     return (
       <div className="table">
+        <div className="table-row">
+          <strong style={{ width: "10%" }}>S/N</strong>
+          <strong style={{ width: "40%" }}>Title</strong>
+          <strong style={{ width: "30%" }}>Author</strong>
+          <strong style={{ width: "10%" }}>Comments</strong>
+          <strong style={{ width: "10%" }}>Points</strong>
+          <strong style={{ width: "10%" }}>Action</strong>
+        </div>
         {list.map((item, index) => (
           <div key={item.objectID} className="table-row">
             <span style={{ width: "10%" }}>{index + 1}</span>
