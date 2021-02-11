@@ -26,7 +26,13 @@ class HackerNewsAPI extends Component {
   }
 
   setSearchTopStories(result) {
-    this.setState({ result });
+    const { hits, page } = result;
+    const oldHits = page !== 0 ? this.state.result.hits : [];
+    const updatedHits = [...oldHits, ...hits];
+
+    this.setState({
+      result: { hits: updatedHits, page },
+    });
   }
 
   onDismiss(id) {
@@ -110,8 +116,9 @@ class HackerNewsTable extends Component {
     const { list, onDismiss } = this.props;
     return (
       <div className="table">
-        {list.map((item) => (
+        {list.map((item, index) => (
           <div key={item.objectID} className="table-row">
+            <span style={{ width: "10%" }}>{index + 1}</span>
             <span style={{ width: "40%" }}>
               <a href={item.url}>{item.title}</a>
             </span>
