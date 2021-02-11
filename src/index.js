@@ -3,13 +3,16 @@ import ReactDOM from "react-dom";
 import "./index.css";
 // import App from "./App";
 import HackerNews from "./HackerNews";
+import HackerNewsAPI from "./HackerNewsAPI";
+
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
     {
       /* <App /> */
-      <HackerNews />
+      // <HackerNews />
+      <HackerNewsAPI />
     }
   </React.StrictMode>,
   document.getElementById("root")
