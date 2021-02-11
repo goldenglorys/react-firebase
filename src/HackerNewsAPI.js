@@ -99,6 +99,13 @@ class HackerNewsAPI extends Component {
       <div className="body">
         <div className="page">
           <div className="interactions">
+            <h2>Hacker News</h2>
+            <div>
+              <small>
+                Search and get latest news from the hacker news daily hits
+              </small>
+            </div>{" "}
+            <br />
             <HackerNewsSearch
               value={searchTerm}
               onChange={this.onSearchChange}
