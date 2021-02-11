@@ -85,3 +85,6 @@ button:hover {
   border-radius: 0;
   border-bottom: 1px solid #38bb6c;
 }
+i {
+  font-size: 30px;
+}

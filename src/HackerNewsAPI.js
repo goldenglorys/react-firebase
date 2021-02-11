@@ -17,6 +17,7 @@ class HackerNewsAPI extends Component {
       searchTerm: DEFAULT_QUERY,
       searchKey: "",
       error: null,
+      isLoading: false,
     };
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
@@ -42,6 +43,7 @@ class HackerNewsAPI extends Component {
         ...results,
         [searchKey]: { hits: updatedHits, page },
       },
+      isLoading: false,
     });
   }
 
@@ -71,6 +73,7 @@ class HackerNewsAPI extends Component {
   }
 
   fetchSearchTopStories(searchTerm, page) {
+    this.setState({ isLoading: true });
     axios
       .get(
         `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`
@@ -86,7 +89,7 @@ class HackerNewsAPI extends Component {
   }
 
   render() {
-    const { searchTerm, results, searchKey, error } = this.state;
+    const { searchTerm, results, searchKey, error, isLoading } = this.state;
     const page =
       (results && results[searchKey] && results[searchKey].page) || 0;
     const list =
@@ -110,11 +113,15 @@ class HackerNewsAPI extends Component {
             <HackerNewsTable list={list} onDismiss={this.onDismiss} />
           )}
           <div className="interactions">
-            <button
-              onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
-            >
-              More
-            </button>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <button
+                onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}
+              >
+                More
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -164,4 +171,14 @@ class HackerNewsTable extends Component {
   }
 }
 
+const Loading = () => {
+  return (
+    <div>
+      <i className="fa fa-spinner fa-spin"></i>
+    </div>
+  );
+};
+
 export default HackerNewsAPI;
+
+export { HackerNewsAPI, HackerNewsTable, HackerNewsSearch };
