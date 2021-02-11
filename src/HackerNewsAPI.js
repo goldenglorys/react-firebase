@@ -5,6 +5,8 @@ const DEFAULT_QUERY = "redux";
 const PATH_BASE = "https://hn.algolia.com/api/v1";
 const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
+const PARAM_PAGE = "page=";
+const page = "0";
 
 const isSearched = (searchTerm) => (item) =>
   item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -42,8 +44,10 @@ class HackerNewsAPI extends Component {
     this.fetchSearchTopStories(searchTerm);
     event.preventDefault();
   }
-  fetchSearchTopStories(searchTerm) {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+  fetchSearchTopStories(searchTerm, page) {
+    fetch(
+      `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`
+    )
       .then((response) => response.json())
       .then((result) => this.setSearchTopStories(result))
       .catch((error) => error);
@@ -51,7 +55,9 @@ class HackerNewsAPI extends Component {
 
   componentDidMount() {
     const { searchTerm } = this.state;
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+    fetch(
+      `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}`
+    )
       .then((response) => response.json())
       .then((result) => this.setSearchTopStories(result))
       .catch((error) => error);
@@ -59,13 +65,14 @@ class HackerNewsAPI extends Component {
 
   render() {
     const { searchTerm, result } = this.state;
+    const page = (result && result.page) || 0;
     if (!result) {
       return null;
     }
     return (
       <div className="body">
         <div className="page">
-          <div>
+          <div className="interactions">
             <HackerNewsSearch
               value={searchTerm}
               onChange={this.onSearchChange}
@@ -73,6 +80,13 @@ class HackerNewsAPI extends Component {
             />
           </div>
           <HackerNewsTable list={result.hits} onDismiss={this.onDismiss} />
+          <div className="interactions">
+            <button
+              onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}
+            >
+              More
+            </button>
+          </div>
         </div>
       </div>
     );
