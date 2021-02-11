@@ -19,6 +19,8 @@ class HackerNewsAPI extends Component {
     this.onDismiss = this.onDismiss.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
   }
 
   setSearchTopStories(result) {
@@ -34,6 +36,17 @@ class HackerNewsAPI extends Component {
   }
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value });
+  }
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
+    event.preventDefault();
+  }
+  fetchSearchTopStories(searchTerm) {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+      .then((response) => response.json())
+      .then((result) => this.setSearchTopStories(result))
+      .catch((error) => error);
   }
 
   componentDidMount() {
@@ -56,13 +69,10 @@ class HackerNewsAPI extends Component {
             <HackerNewsSearch
               value={searchTerm}
               onChange={this.onSearchChange}
+              onSubmit={this.onSearchSubmit}
             />
           </div>
-          <HackerNewsTable
-            list={result.hits}
-            pattern={searchTerm}
-            onDismiss={this.onDismiss}
-          />
+          <HackerNewsTable list={result.hits} onDismiss={this.onDismiss} />
         </div>
       </div>
     );
@@ -71,10 +81,11 @@ class HackerNewsAPI extends Component {
 
 class HackerNewsSearch extends Component {
   render() {
-    const { value, onChange } = this.props;
+    const { value, onChange, onSubmit } = this.props;
     return (
-      <form>
+      <form onSubmit={onSubmit}>
         <input type="text" value={value} onChange={onChange} />
+        <button type="submit">Search</button>
       </form>
     );
   }
@@ -82,10 +93,10 @@ class HackerNewsSearch extends Component {
 
 class HackerNewsTable extends Component {
   render() {
-    const { list, pattern, onDismiss } = this.props;
+    const { list, onDismiss } = this.props;
     return (
       <div className="table">
-        {list.filter(isSearched(pattern)).map((item) => (
+        {list.map((item) => (
           <div key={item.objectID} className="table-row">
             <span style={{ width: "40%" }}>
               <a href={item.url}>{item.title}</a>
