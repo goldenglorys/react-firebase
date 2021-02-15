@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 // import App from "./App";
 // import HackerNews from "./HackerNews";
-import HackerNewsAPI from "./HackerNewsAPI";
+import HackerNewsAPI from "././components/HackerNewsAPI";
 
 import reportWebVitals from "./reportWebVitals";
 
