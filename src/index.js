@@ -2,19 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-// import HackerNews from "./HackerNews";
-// import HackerNewsAPI from "./components/HackerNews/HackerNewsAPI";
 
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
-    {
-      <App />
-      // <HackerNews />
-      // <HackerNewsAPI />
-    }
-  </React.StrictMode>,
+  <React.StrictMode>{<App />}</React.StrictMode>,
   document.getElementById("root")
 );
 
