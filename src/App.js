@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import HackerNewsAPI from "./components/HackerNews/HackerNewsAPI";
 import Todos from "./components/TodoApp/Todos";
+import Header from "./components/layout/Header";
 
 class App extends Component {
   state = {
@@ -43,6 +44,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Header />
         {/* <HackerNewsAPI></HackerNewsAPI> */}
         <Todos
           todos={this.state.todos}
