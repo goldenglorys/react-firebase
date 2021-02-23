@@ -6,21 +6,23 @@ import AddTodo from "./components/TodoApp/AddTodo";
 
 import "./App.css";
 
+import { v4 as uuidv4 } from "uuid";
+
 class App extends Component {
   state = {
     todos: [
       {
-        id: 1,
+        id: uuidv4(),
         title: "Todo one",
         completed: false,
       },
       {
-        id: 2,
+        id: uuidv4(),
         title: "Todo two",
         completed: false,
       },
       {
-        id: 3,
+        id: uuidv4(),
         title: "Todo three",
         completed: false,
       },
@@ -44,13 +46,22 @@ class App extends Component {
     });
   };
 
+  addTodo = (title) => {
+    const newTodo = {
+      id: uuidv4(),
+      title,
+      completed: false,
+    };
+    this.setState({ todos: [...this.state.todos, newTodo] });
+  };
+
   render() {
     return (
       <div>
         <div className="container">
           <Header />
           {/* <HackerNewsAPI></HackerNewsAPI> */}
-          <AddTodo />
+          <AddTodo addTodo={this.addTodo} />
           <Todos
             todos={this.state.todos}
             markComplete={this.markComplete}
