@@ -2,6 +2,9 @@ import React, { Component } from "react";
 // import HackerNewsAPI from "./components/HackerNews/HackerNewsAPI";
 import Todos from "./components/TodoApp/Todos";
 import Header from "./components/layout/Header";
+import AddTodo from "./components/TodoApp/AddTodo";
+
+import "./App.css";
 
 class App extends Component {
   state = {
@@ -44,13 +47,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header />
-        {/* <HackerNewsAPI></HackerNewsAPI> */}
-        <Todos
-          todos={this.state.todos}
-          markComplete={this.markComplete}
-          delTodo={this.delTodo}
-        />
+        <div className="container">
+          <Header />
+          {/* <HackerNewsAPI></HackerNewsAPI> */}
+          <AddTodo />
+          <Todos
+            todos={this.state.todos}
+            markComplete={this.markComplete}
+            delTodo={this.delTodo}
+          />
+        </div>
       </div>
     );
   }
