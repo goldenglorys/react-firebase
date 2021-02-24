@@ -16,6 +16,10 @@ export default function Header() {
       <Link to="/hacker-news" style={linkStyle}>
         Hacker News
       </Link>
+      |{" "}
+      <Link to="/firebase" style={linkStyle}>
+        React with Firebase
+      </Link>
     </header>
   );
 }

@@ -4,7 +4,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1 style={{ textAlign: "center" }}>Welcome to react app collection</h1>
+        <h3 style={{ textAlign: "center" }}>Welcome to react app collection</h3>
       </div>
     );
   }
