@@ -1,7 +1,7 @@
-export const LANDING = "firebase/";
-export const SIGN_UP = "firebase/signup";
-export const SIGN_IN = "firebase/signin";
-export const HOME = "firebase/home";
-export const ACCOUNT = "firebase/account";
-export const ADMIN = "firebase/admin";
-export const PASSWORD_FORGET = "firebase/pw-forget";
+export const LANDING = "/";
+export const SIGN_UP = "/signup";
+export const SIGN_IN = "/signin";
+export const HOME = "/home";
+export const ACCOUNT = "/account";
+export const ADMIN = "/admin";
+export const PASSWORD_FORGET = "/pw-forget";
