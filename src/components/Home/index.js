@@ -84,6 +84,7 @@ class MessagesBase extends Component {
             {loading && <div>Loading ...</div>}
             {messages ? (
               <MessageList
+                authUser={authUser}
                 messages={messages}
                 onEditMessage={this.onEditMessage}
                 onRemoveMessage={this.onRemoveMessage}
@@ -102,10 +103,16 @@ class MessagesBase extends Component {
   }
 }
 
-const MessageList = ({ messages, onRemoveMessage, onEditMessage }) => (
+const MessageList = ({
+  authUser,
+  messages,
+  onRemoveMessage,
+  onEditMessage,
+}) => (
   <ul>
     {messages.map((message) => (
       <MessageItem
+        authUser={authUser}
         key={message.uid}
         message={message}
         onEditMessage={onEditMessage}
@@ -141,35 +148,42 @@ class MessageItem extends Component {
   };
 
   render() {
-    const { message, onRemoveMessage } = this.props;
+    const { authUser, message, onRemoveMessage } = this.props;
     const { editMode, editText } = this.state;
     return (
       <li>
-        {editMode ? (
-          <input
-            type="text"
-            value={editText}
-            onChange={this.onChangeEditText}
-          />
-        ) : (
+        {authUser.uid === message.userId && (
           <span>
-            <strong>{message.userId}</strong> {message.text}
-            {message.editedAt && <span>(Edited)</span>}
+            {editMode ? (
+              <input
+                type="text"
+                value={editText}
+                onChange={this.onChangeEditText}
+              />
+            ) : (
+              <span>
+                <strong>{message.userId}</strong> {message.text}
+                {message.editedAt && <span>(Edited)</span>}
+              </span>
+            )}
+            {editMode ? (
+              <span>
+                <button onClick={this.onSaveEditText}>Save</button>
+                <button onClick={this.onToggleEditMode}>Reset</button>
+              </span>
+            ) : (
+              <button onClick={this.onToggleEditMode}>Edit</button>
+            )}
+            {message.text}
+            {!editMode && (
+              <button
+                type="button"
+                onClick={() => onRemoveMessage(message.uid)}
+              >
+                Delete
+              </button>
+            )}
           </span>
-        )}
-        {editMode ? (
-          <span>
-            <button onClick={this.onSaveEditText}>Save</button>
-            <button onClick={this.onToggleEditMode}>Reset</button>
-          </span>
-        ) : (
-          <button onClick={this.onToggleEditMode}>Edit</button>
-        )}
-        {message.text}
-        {!editMode && (
-          <button type="button" onClick={() => onRemoveMessage(message.uid)}>
-            Delete
-          </button>
         )}
       </li>
     );
