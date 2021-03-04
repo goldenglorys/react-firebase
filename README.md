@@ -60,3 +60,11 @@ This project is a real world application with user management without backend.
 - visit https://firebase.google.com/ and create a Firebase App
 - copy and paste your Credentials from your Firebase App into src/firebase/firebase.js
 - activate Email/Password Sign-In Method in your Firebase App
+
+{
+"rules": {
+"messages": {
+".indexOn": ["createdAt"]
+}
+}
+}
