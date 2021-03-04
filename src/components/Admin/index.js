@@ -158,8 +158,7 @@ class UserItemBase extends Component {
 const UserList = withFirebase(UserListBase);
 const UserItem = withFirebase(UserItemBase);
 
-const condition = (authUser) =>
-  authUser && authUser.roles.includes(ROLES.ADMIN);
+const condition = (authUser) => authUser && !!authUser.roles[ROLES.ADMIN];
 
 export default compose(
   withEmailVerification,
